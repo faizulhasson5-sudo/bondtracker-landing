@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BondTracker — Never Miss a Bid Bond Deadline Again</title>
+  <meta name="description" content="BondTracker tracks bid bond and retention deadlines for construction contractors. Every contract manually verified. Apply for the free pilot.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy: #0B1F3A;
+      --navy-deep: #071529;
+      --ivory: #EFE9DD;
+      --ivory-light: #F7F4EC;
+      --steel: #5C7285;
+      --amber: #E8871E;
+      --amber-hover: #D07518;
+      --white: #FFFFFF;
+      --text-dark: #1A2A3A;
+      --text-light: #C8D0D8;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+      --max-w: 1140px;
+      --section-pad: 96px;
+      --section-pad-mobile: 56px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      background: var(--ivory-light);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Focus States ── */
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 2px;
+    }
+
+    /* ── Utility ── */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+    /* ── Scroll Animations ── */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(11, 31, 58, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      background: var(--amber);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--amber-hover); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+      padding: 140px 0 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(92,114,133,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(92,114,133,0.08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+    }
+    .hero-content { z-index: 1; }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      line-height: 1.65;
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--amber);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--amber-hover); transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    /* ── Browser Frame ── */
+    .browser-frame {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #F0F0F0;
+      border-bottom: 1px solid #E0E0E0;
+    }
+    .browser-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #D5D5D5;
+    }
+    .browser-dot:first-child { background: #FF5F56; }
+    .browser-dot:nth-child(2) { background: #FFBD2E; }
+    .browser-dot:nth-child(3) { background: #27C93F; }
+    .browser-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero .browser-frame {
+      transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
+      transition: transform 0.4s ease;
+    }
+    .hero .browser-frame:hover {
+      transform: perspective(1200px) rotateY(0deg) rotateX(0deg);
+    }
+    .hero-frame {
+      position: relative;
+    }
+    .blueprint-corner {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      z-index: 2;
+    }
+    .blueprint-corner::before,
+    .blueprint-corner::after {
+      content: '';
+      position: absolute;
+      background: var(--amber);
+    }
+    .blueprint-corner::before {
+      width: 24px;
+      height: 2px;
+    }
+    .blueprint-corner::after {
+      width: 2px;
+      height: 24px;
+    }
+    .blueprint-corner.tl { top: -8px; left: -8px; }
+    .blueprint-corner.tl::before { top: 0; left: 0; }
+    .blueprint-corner.tl::after { top: 0; left: 0; }
+    .blueprint-corner.tr { top: -8px; right: -8px; }
+    .blueprint-corner.tr::before { top: 0; right: 0; }
+    .blueprint-corner.tr::after { top: 0; right: 0; }
+    .blueprint-corner.bl { bottom: -8px; left: -8px; }
+    .blueprint-corner.bl::before { bottom: 0; left: 0; }
+    .blueprint-corner.bl::after { bottom: 0; left: 0; }
+    .blueprint-corner.br { bottom: -8px; right: -8px; }
+    .blueprint-corner.br::before { bottom: 0; right: 0; }
+    .blueprint-corner.br::after { bottom: 0; right: 0; }
+
+    /* ── PROBLEM ── */
+    .problem {
+      background: var(--ivory);
+      padding: var(--section-pad) 0;
+    }
+    .problem-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .problem-copy { max-width: 580px; }
+    .problem p {
+      font-size: 1.1rem;
+      color: var(--steel);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .problem-sub {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 16px !important;
+    }
+    .problem-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .problem-list li {
+      font-size: 1rem;
+      color: var(--steel);
+      line-height: 1.6;
+      padding-left: 20px;
+      position: relative;
+    }
+    .problem-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+    .problem-aside {
+      padding-top: 8px;
+    }
+    .problem-stat {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .problem-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── CALCULATOR ── */
+    .calc {
+      background: var(--ivory-light);
+      padding: var(--section-pad) 0;
+    }
+    .calc-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .calc h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .calc-sub {
+      font-size: 1.05rem;
+      color: var(--steel);
+      margin-bottom: 40px;
+      line-height: 1.65;
+    }
+    .calc-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+      text-align: left;
+    }
+    .calc-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .calc-field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .calc-field input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #D0CCC4;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      background: var(--ivory-light);
+      transition: border-color 0.2s;
+    }
+    .calc-field input:focus {
+      border-color: var(--amber);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(232, 135, 30, 0.12);
+    }
+    .calc-currency-row {
+      display: flex;
+      gap: 12px;
+    }
+    .calc-currency-row input {
+      flex: 1;
+    }
+    .calc-toggle {
+      display: flex;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #D0CCC4;
+    }
+    .calc-toggle-btn {
+      padding: 0 16px;
+      background: var(--ivory-light);
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--steel);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      min-width: 44px;
+    }
+    .calc-toggle-btn.active {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .calc-result {
+      background: var(--ivory);
+      border-radius: 8px;
+      padding: 28px;
+      text-align: center;
+      border: 1px solid rgba(232, 135, 30, 0.15);
+    }
+    .calc-result-label {
+      font-size: 0.9rem;
+      color: var(--steel);
+      margin-bottom: 8px;
+    }
+    .calc-result-number {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .calc-result-note {
+      font-size: 0.85rem;
+      color: var(--steel);
+    }
+    .calc-disclaimer {
+      font-size: 0.8rem;
+      color: var(--steel);
+      line-height: 1.5;
+      margin-top: 20px;
+      text-align: center;
+      opacity: 0.8;
+    }
+    .calc-cta {
+      display: block;
+      text-align: center;
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .calc-cta:hover { color: var(--amber-hover); }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      background: var(--ivory-light);
+      padding: var(--section-pad) 0;
+    }
+    .how-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .how h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 56px;
+      letter-spacing: -0.02em;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    .steps { display: flex; flex-direction: column; gap: 44px; }
+    .step {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      position: relative;
+    }
+    .step-num {
+      flex-shrink: 0;
+      font-family: var(--font-display);
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--amber);
+      line-height: 0.85;
+      user-select: none;
+      min-width: 56px;
+      text-align: center;
+    }
+    .step-text {
+      padding-top: 8px;
+    }
+    .step-text h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+    .step-text p {
+      font-size: 0.95rem;
+      color: var(--steel);
+      line-height: 1.6;
+    }
+
+    /* ── WHY DIFFERENT ── */
+    .why {
+      background: var(--navy);
+      padding: var(--section-pad) 0;
+    }
+    .why-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .why-copy { max-width: 520px; }
+    .why h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .why > .why-inner > .why-copy > p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+    .trust-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .trust-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .trust-check {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(232, 135, 30, 0.15);
+      color: var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    /* ── WAITLIST ── */
+    .waitlist {
+      background: var(--ivory);
+      padding: var(--section-pad) 0;
+    }
+    .waitlist-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .waitlist h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .waitlist-sub {
+      font-size: 1.05rem;
+      color: var(--steel);
+      margin-bottom: 24px;
+      line-height: 1.65;
+    }
+    .spots-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(232, 135, 30, 0.1);
+      color: var(--amber);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 100px;
+      margin-bottom: 36px;
+      border: 1px solid rgba(232, 135, 30, 0.2);
+    }
+    .waitlist-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px 0;
+      border: none;
+      border-bottom: 1.5px solid #C0BDB5;
+      border-radius: 0;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-dark);
+      background: transparent;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-bottom-color: var(--amber);
+      outline: none;
+      box-shadow: none;
+    }
+    .form-group input::placeholder { color: #A0A0A0; }
+    .form-group select {
+      cursor: pointer;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%235C7285' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0 center;
+      padding-right: 20px;
+    }
+    .form-submit {
+      width: 100%;
+      padding: 16px 28px;
+      background: var(--amber);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 8px;
+      position: relative;
+    }
+    .form-submit::before {
+      content: '';
+      position: absolute;
+      inset: 3px -3px -3px 3px;
+      background: rgba(232, 135, 30, 0.2);
+      border-radius: 6px;
+      z-index: -1;
+    }
+    .form-submit:hover { background: var(--amber-hover); transform: translateY(-1px); }
+    .form-submit:active { transform: translateY(0); }
+    .form-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .form-message {
+      text-align: center;
+      font-size: 0.95rem;
+      margin-top: 8px;
+      min-height: 24px;
+    }
+    .form-message.success { color: #2D7D46; }
+    .form-message.error { color: #C0392B; }
+
+    /* ── FAQ ── */
+    .faq {
+      background: var(--ivory-light);
+      padding: var(--section-pad) 0;
+    }
+    .faq-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .faq h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 48px;
+      letter-spacing: -0.02em;
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .faq-item {
+      border-bottom: 1px solid #D0CCC4;
+      border-left: 3px solid transparent;
+      padding-left: 20px;
+      transition: border-color 0.2s;
+    }
+    .faq-item:first-child {
+      border-top: 1px solid #D0CCC4;
+    }
+    .faq-item[open] {
+      border-left-color: var(--amber);
+    }
+    .faq-item summary {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      padding: 24px 0;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '[+]';
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--amber);
+      flex-shrink: 0;
+      transition: content 0.2s;
+    }
+    .faq-item[open] summary::after {
+      content: '[\2013]';
+    }
+    .faq-item p {
+      font-size: 0.95rem;
+      color: var(--steel);
+      line-height: 1.65;
+      padding-bottom: 24px;
+      max-width: 580px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 32px 0;
+    }
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: var(--steel);
+    }
+    .footer a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .footer a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero { padding: 120px 0 60px; }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-content { order: 1; }
+      .hero .browser-frame {
+        transform: none;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .blueprint-corner { display: none; }
+      .problem-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .problem-aside { text-align: left; }
+      .how-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .how .browser-frame { max-width: 520px; margin: 0 auto; }
+      .why-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .calc-card { padding: 24px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      :root { --section-pad: var(--section-pad-mobile); }
+      .hero h1 { font-size: 1.85rem; }
+      .hero-btns { flex-direction: column; }
+      .hero-btns a, .hero-btns button { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">BondTracker</a>
+      <a href="#waitlist" class="nav-cta">Apply for pilot</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Pilot program &middot; 5 spots</p>
+        <h1>Your bid bond cash shouldn&rsquo;t sit frozen because nobody set a reminder.</h1>
+        <p class="hero-sub">Contractors lose money because bond and retention deadlines get buried in spreadsheets, PDFs, and email threads. BondTracker surfaces every deadline before it&rsquo;s too late.</p>
+        <div class="hero-btns">
+          <a href="#waitlist" class="btn-primary">Apply for free pilot spot</a>
+          <a href="#how" class="btn-secondary">See how it works</a>
+        </div>
+      </div>
+      <div class="browser-frame hero-frame" aria-label="Screenshot of the BondTracker dashboard showing total bonds locked up and upcoming deadlines">
+        <div class="blueprint-corner tl" aria-hidden="true"></div>
+        <div class="blueprint-corner tr" aria-hidden="true"></div>
+        <div class="blueprint-corner bl" aria-hidden="true"></div>
+        <div class="blueprint-corner br" aria-hidden="true"></div>
+        <div class="browser-bar">
+          <span class="browser-dot"></span>
+          <span class="browser-dot"></span>
+          <span class="browser-dot"></span>
+        </div>
+        <img src="public/screenshots/screenshot-dashboard.png" alt="Screenshot of the BondTracker dashboard showing total bonds locked up and upcoming deadlines" width="1200" height="800" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="problem reveal" id="problem">
+    <div class="problem-inner">
+      <div class="problem-copy">
+        <p>Right now, you might have a bond release sitting past its window and nobody&rsquo;s noticed. It happens to almost every back office running this on spreadsheets and email &mdash; not because anyone&rsquo;s careless, but because deadlines don&rsquo;t send themselves a reminder.</p>
+        <p class="problem-sub">Sound familiar?</p>
+        <ul class="problem-list">
+          <li>A bond return date buried in a PDF attachment from four months ago.</li>
+          <li>A spreadsheet column that&rsquo;s supposed to get checked every Monday, and sometimes doesn&rsquo;t.</li>
+          <li>Cash that should already be back in the business, still sitting with the obligee.</li>
+        </ul>
+      </div>
+      <div class="problem-aside">
+        <p class="problem-stat">14 days</p>
+        <p class="problem-stat-label">Average days a missed deadline costs you</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calc reveal" id="calculator">
+    <div class="calc-inner">
+      <p class="section-label">See the real cost</p>
+      <h2>What does a missed deadline actually cost you?</h2>
+      <p class="calc-sub">Plug in your own numbers. This is real math, not a marketing claim.</p>
+      <div class="calc-card">
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label for="calcBonds">Active bid bonds you manage</label>
+            <input type="number" id="calcBonds" min="1" max="500" value="10" inputmode="numeric">
+          </div>
+          <div class="calc-field">
+            <label for="calcAmount">Average bond amount</label>
+            <div class="calc-currency-row">
+              <input type="number" id="calcAmount" min="1" max="100000000" value="250000" inputmode="decimal">
+              <div class="calc-toggle" role="radiogroup" aria-label="Currency">
+                <button type="button" class="calc-toggle-btn active" data-currency="usd" role="radio" aria-checked="true">$</button>
+                <button type="button" class="calc-toggle-btn" data-currency="gbp" role="radio" aria-checked="false">&pound;</button>
+              </div>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label for="calcDays">Average days a deadline gets missed by</label>
+            <input type="number" id="calcDays" min="1" max="365" value="14" inputmode="numeric">
+          </div>
+        </div>
+        <div class="calc-result" id="calcResult">
+          <p class="calc-result-label">Estimated opportunity cost of that capital sitting frozen:</p>
+          <p class="calc-result-number" id="calcNumber">&mdash;</p>
+          <p class="calc-result-note">Capital that could have been working for your business instead of sitting idle.</p>
+        </div>
+        <p class="calc-disclaimer">This is an estimate based on a typical short-term cost-of-capital rate of 8% per year and is meant to illustrate the general risk, not predict your exact costs. Your actual numbers will vary.</p>
+        <a href="#waitlist" class="calc-cta">See how BondTracker fixes this &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how reveal" id="how">
+    <div class="how-inner">
+      <p class="section-label">How it works</p>
+      <h2>Three steps to never missing a bond deadline.</h2>
+      <div class="how-grid">
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">1</span>
+            <div class="step-text">
+              <h3>Add your contract</h3>
+              <p>Enter details yourself in under a minute, or upload the PDF and skip the typing.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div class="step-text">
+              <h3>It's verified by hand</h3>
+              <p>A real person checks every date and dollar amount before it goes live &mdash; not an algorithm guessing at a scanned PDF.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div class="step-text">
+              <h3>You're alerted your way</h3>
+              <p>Choose WhatsApp, SMS, or email, and pick which day-thresholds matter to you (30 / 14 / 7 / 1 days out).</p>
+            </div>
+          </div>
+        </div>
+        <div class="browser-frame" aria-label="Screenshot of the BondTracker add-project form showing manual entry and PDF upload options">
+          <div class="browser-bar">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+          </div>
+          <img src="public/screenshots/screenshot-add-project.png" alt="Screenshot of the BondTracker add-project form showing manual entry and PDF upload options" width="1200" height="800" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY DIFFERENT -->
+  <section class="why reveal" id="why">
+    <div class="why-inner">
+      <div class="why-copy">
+        <p class="section-label" style="color: var(--amber);">Why it's different</p>
+        <h2>No AI guesswork on your bond money.</h2>
+        <p>Every uploaded contract is read and confirmed by a person, not silently auto-extracted by an AI model. This is a hands-on pilot &mdash; trust is the product, not a feature.</p>
+      </div>
+      <ul class="trust-list">
+        <li>
+          <span class="trust-check" aria-hidden="true">&#10003;</span>
+          <span>Every amount and date manually confirmed before going live</span>
+        </li>
+        <li>
+          <span class="trust-check" aria-hidden="true">&#10003;</span>
+          <span>You choose your own contact channel &mdash; WhatsApp, SMS, or email</span>
+        </li>
+        <li>
+          <span class="trust-check" aria-hidden="true">&#10003;</span>
+          <span>You&rsquo;re talking to the person who actually built this &mdash; not a support ticket queue</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq reveal" id="faq">
+    <div class="faq-inner">
+      <p class="section-label">Questions</p>
+      <h2>Before you apply &mdash; a few honest answers.</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Is this AI reading my contracts?</summary>
+          <p>No. Every contract is manually reviewed by a real person before any details go live on your dashboard. No automated extraction, no algorithm guessing at your numbers &mdash; a human reads every line.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my contract data secure?</summary>
+          <p>Your data is stored in an access-controlled database &mdash; not publicly accessible, only visible to your account and the admin reviewing your upload. We don&rsquo;t share, sell, or use your data for anything outside of providing the service.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What does the pilot actually cost?</summary>
+          <p>Free during the pilot program. The full product will have a subscription, but pilot participants get free personal onboarding and ongoing access at no cost for the duration of the pilot.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How fast will I actually get notified?</summary>
+          <p>During the pilot, a real person reaches out via your chosen channel as your deadline approaches &mdash; typically 30, 14, 7, and 1 days out. This is personal attention, not an instant automated blast.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What if I don&rsquo;t want to keep using it after the pilot?</summary>
+          <p>No obligation, no cancellation process. It&rsquo;s a free trial pilot program &mdash; if it&rsquo;s not for you, simply stop using it. No hard feelings, no follow-up emails.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section class="waitlist reveal" id="waitlist">
+    <div class="waitlist-inner">
+      <p class="section-label">Join the pilot</p>
+      <h2>Apply for a free pilot spot.</h2>
+      <p class="waitlist-sub">Every week without a system like this is another week a deadline could slip through. Takes two minutes to apply &mdash; we&rsquo;ll personally set up your account.</p>
+      <span class="spots-badge">Only 5 pilot spots open</span>
+      <form class="waitlist-form" id="waitlistForm" novalidate>
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label for="company">Company name</label>
+          <input type="text" id="company" name="company_name" placeholder="Acme Contracting" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Work email</label>
+          <input type="email" id="email" name="email" placeholder="jane@acme.com" required>
+        </div>
+        <div class="form-group">
+          <label for="bonds">Active bid bonds managed per year</label>
+          <select id="bonds" name="bonds_per_year" required>
+            <option value="" disabled selected>Select a range</option>
+            <option value="1-5">1 – 5</option>
+            <option value="6-15">6 – 15</option>
+            <option value="16-30">16 – 30</option>
+            <option value="30+">30+</option>
+          </select>
+        </div>
+        <button type="submit" class="form-submit" id="submitBtn">Apply for pilot spot</button>
+        <p class="form-message" id="formMessage" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-text">BondTracker &mdash; an independent pilot project.</span>
+      <a href="mailto:getbondtracker@gmail.com">getbondtracker@gmail.com</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Supabase Config ──
+    const SUPABASE_URL = 'https://wlnfxoxrzmxhmetktpqu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsbmZ4b3hyem14aG1ldGt0cHF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyNTIyNzcsImV4cCI6MjEwMDgyODI3N30.H4Dhc__A02QVXyle9kyPPL3ujMouGvOJCQ185tvyaV4';
+
+    // ── Calculator ──
+    const calcBonds = document.getElementById('calcBonds');
+    const calcAmount = document.getElementById('calcAmount');
+    const calcDays = document.getElementById('calcDays');
+    const calcNumber = document.getElementById('calcNumber');
+    const calcToggleBtns = document.querySelectorAll('.calc-toggle-btn');
+    let currency = 'usd';
+    const ANNUAL_RATE = 0.08;
+
+    function formatCurrency(value) {
+      const rounded = Math.round(value);
+      if (currency === 'usd') {
+        return '$' + rounded.toLocaleString('en-US');
+      }
+      return '\u00A3' + rounded.toLocaleString('en-GB');
+    }
+
+    function calculate() {
+      const bonds = parseFloat(calcBonds.value) || 0;
+      const amount = parseFloat(calcAmount.value) || 0;
+      const days = parseFloat(calcDays.value) || 0;
+      const totalExposure = bonds * amount;
+      const dailyRate = ANNUAL_RATE / 365;
+      const cost = totalExposure * dailyRate * days;
+      if (bonds > 0 && amount > 0 && days > 0) {
+        calcNumber.textContent = formatCurrency(cost);
+      } else {
+        calcNumber.textContent = '\u2014';
+      }
+    }
+
+    calcToggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        calcToggleBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-checked', 'false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked', 'true');
+        currency = btn.dataset.currency;
+        calculate();
+      });
+    });
+
+    [calcBonds, calcAmount, calcDays].forEach(el => {
+      el.addEventListener('input', calculate);
+    });
+
+    // ── Form Submission ──
+    const form = document.getElementById('waitlistForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formMessage = document.getElementById('formMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formMessage.textContent = '';
+      formMessage.className = 'form-message';
+
+      const name = form.name.value.trim();
+      const company_name = form.company_name.value.trim();
+      const email = form.email.value.trim();
+      const bonds_per_year = form.bonds_per_year.value;
+
+      if (!name || !company_name || !email || !bonds_per_year) {
+        formMessage.textContent = 'Please fill in all fields.';
+        formMessage.className = 'form-message error';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting\u2026';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_waitlist_application`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({ p_name: name, p_company_name: company_name, p_email: email, p_bonds_per_year: bonds_per_year })
+        });
+
+        if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+
+        formMessage.textContent = 'You\'re on the list! We\'ll be in touch soon.';
+        formMessage.className = 'form-message success';
+        form.reset();
+      } catch (err) {
+        formMessage.textContent = 'Something went wrong. Please try again or email us directly.';
+        formMessage.className = 'form-message error';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Apply for pilot spot';
+      }
+    });
+
+    // ── Scroll Reveal ──
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      reveals.forEach(el => observer.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
