@@ -640,6 +640,65 @@
       margin-bottom: 36px;
       border: 1px solid rgba(232, 135, 30, 0.2);
     }
+
+    /* ── Founder Block ── */
+    .founder-block {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      background: var(--ivory-light);
+      border: 1px solid #D0CCC4;
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+    .founder-photo {
+      flex-shrink: 0;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      overflow: hidden;
+    }
+    .founder-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .founder-text h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .founder-text p {
+      font-size: 0.9rem;
+      color: var(--steel);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .founder-text p:last-child { margin-bottom: 0; }
+    .founder-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .founder-link:hover { color: var(--amber-hover); }
     .waitlist-form {
       display: flex;
       flex-direction: column;
@@ -850,6 +909,7 @@
         gap: 40px;
       }
       .calc-card { padding: 24px; }
+      .founder-block { flex-direction: column; align-items: center; text-align: center; }
       .footer-inner { flex-direction: column; text-align: center; }
     }
 
@@ -1058,6 +1118,16 @@
       <h2>Apply for a free pilot spot.</h2>
       <p class="waitlist-sub">Every week without a system like this is another week a deadline could slip through. Takes two minutes to apply &mdash; we&rsquo;ll personally set up your account.</p>
       <span class="spots-badge">Only 5 pilot spots open</span>
+      <div class="founder-block">
+        <div class="founder-photo" aria-hidden="true">
+          <img src="public/founder-photo.jpg" alt="" onerror="this.style.display='none'; this.parentNode.textContent='F';">
+        </div>
+        <div class="founder-text">
+          <h3>You&rsquo;re not talking to a company. You&rsquo;re talking to me.</h3>
+          <p>I&rsquo;m Faiz, and I built BondTracker myself. I read every uploaded contract personally, and I&rsquo;ll personally set up your account if you apply. If you want to check who you&rsquo;re talking to first, here&rsquo;s my LinkedIn &mdash; happy to connect before you apply, not just after.</p>
+          <a href="https://www.linkedin.com/in/faiz-ul-hasson" target="_blank" rel="noopener noreferrer" class="founder-link">&rarr; Connect with me on LinkedIn</a>
+        </div>
+      </div>
       <form class="waitlist-form" id="waitlistForm" novalidate>
         <div class="form-group">
           <label for="name">Full name</label>
