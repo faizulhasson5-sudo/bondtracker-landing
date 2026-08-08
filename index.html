@@ -880,6 +880,53 @@
     }
     .footer a:hover { color: var(--white); }
 
+    /* ── Lightbox ── */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      cursor: pointer;
+    }
+    .lightbox-overlay.active {
+      display: flex;
+    }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 8px;
+      cursor: default;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 201;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+
+    /* ── Tap Hint (mobile only) ── */
+    .tap-hint {
+      display: none;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .hero { padding: 120px 0 60px; }
@@ -890,8 +937,9 @@
       .hero-content { order: 1; }
       .hero .browser-frame {
         transform: none;
-        max-width: 520px;
+        max-width: 100%;
         margin: 0 auto;
+        cursor: pointer;
       }
       .blueprint-corner { display: none; }
       .problem-inner {
@@ -903,7 +951,11 @@
         grid-template-columns: 1fr;
         gap: 40px;
       }
-      .how .browser-frame { max-width: 520px; margin: 0 auto; }
+      .how .browser-frame {
+        max-width: 100%;
+        margin: 0 auto;
+        cursor: pointer;
+      }
       .why-inner {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -911,6 +963,15 @@
       .calc-card { padding: 24px; }
       .founder-block { flex-direction: column; align-items: center; text-align: center; }
       .footer-inner { flex-direction: column; text-align: center; }
+      .tap-hint {
+        display: block;
+        text-align: center;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--steel);
+        margin-top: 8px;
+        opacity: 0.7;
+      }
     }
 
     @media (max-width: 480px) {
@@ -953,7 +1014,8 @@
           <span class="browser-dot"></span>
           <span class="browser-dot"></span>
         </div>
-        <img src="public/screenshots/screenshot-dashboard.png" alt="Screenshot of the BondTracker dashboard showing total bonds locked up and upcoming deadlines" width="1200" height="800" loading="eager">
+        <img src="public/screenshots/screenshot-dashboard.png" alt="Screenshot of the BondTracker dashboard showing total bonds locked up and upcoming deadlines" width="1200" height="800" loading="eager" data-lightbox="public/screenshots/screenshot-dashboard.png">
+        <p class="tap-hint" aria-hidden="true">Tap to enlarge</p>
       </div>
     </div>
   </section>
@@ -1050,7 +1112,8 @@
             <span class="browser-dot"></span>
             <span class="browser-dot"></span>
           </div>
-          <img src="public/screenshots/screenshot-add-project.png" alt="Screenshot of the BondTracker add-project form showing manual entry and PDF upload options" width="1200" height="800" loading="lazy">
+          <img src="public/screenshots/screenshot-add-project.png" alt="Screenshot of the BondTracker add-project form showing manual entry and PDF upload options" width="1200" height="800" loading="lazy" data-lightbox="public/screenshots/screenshot-add-project.png">
+          <p class="tap-hint" aria-hidden="true">Tap to enlarge</p>
         </div>
       </div>
     </div>
@@ -1164,6 +1227,12 @@
       <a href="mailto:getbondtracker@gmail.com">getbondtracker@gmail.com</a>
     </div>
   </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightbox" role="dialog" aria-label="Enlarged screenshot">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  </div>
 
   <script>
     // ── Supabase Config ──
@@ -1284,6 +1353,34 @@
         el.style.transform = 'none';
       });
     }
+
+    // ── Lightbox ──
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('[data-lightbox]').forEach(el => {
+      el.addEventListener('click', () => {
+        lightboxImg.src = el.dataset.lightbox;
+        lightboxImg.alt = el.alt;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+      lightboxImg.src = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    });
   </script>
 </body>
 </html>
