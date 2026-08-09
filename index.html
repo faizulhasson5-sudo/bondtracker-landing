@@ -45,6 +45,11 @@
       outline-offset: 2px;
     }
 
+    /* ── Scroll offset for fixed nav ── */
+    #hero, #problem, #calculator, #how, #why, #faq, #waitlist {
+      scroll-margin-top: 90px;
+    }
+
     /* ── Utility ── */
     .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
 
@@ -704,13 +709,18 @@
       flex-direction: column;
       gap: 28px;
       text-align: left;
+      background: var(--ivory-light);
+      border: 1px solid #D0CCC4;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
     }
     .form-group label {
       display: block;
       font-family: var(--font-mono);
       font-size: 0.75rem;
       font-weight: 500;
-      color: var(--steel);
+      color: var(--amber);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 8px;
@@ -734,7 +744,7 @@
       outline: none;
       box-shadow: none;
     }
-    .form-group input::placeholder { color: #A0A0A0; }
+    .form-group input::placeholder { color: var(--steel); }
     .form-group select {
       cursor: pointer;
       -webkit-appearance: none;
