@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BondTracker — Never Miss a Bid Bond Deadline Again</title>
-  <meta name="description" content="BondTracker tracks bid bond and retention deadlines for construction contractors. Every contract manually verified. Apply for the free pilot.">
+  <title>BondTracker — Never Miss a Retention Deadline Again</title>
+  <meta name="description" content="BondTracker tracks retention release dates and bond deadlines for construction contractors. Every contract manually verified. Apply for the free pilot.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -704,6 +704,29 @@
       transition: color 0.2s;
     }
     .founder-link:hover { color: var(--amber-hover); }
+
+    /* ── Who Block ── */
+    .who-block {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 0;
+    }
+    .who-block-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .who-block p {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      max-width: 720px;
+    }
+    .who-block strong {
+      color: var(--white);
+      font-weight: 600;
+    }
     .waitlist-form {
       display: flex;
       flex-direction: column;
@@ -1006,14 +1029,14 @@
     <div class="hero-inner">
       <div class="hero-content">
         <p class="hero-eyebrow">Pilot program &middot; 5 spots</p>
-        <h1>Your bid bond cash shouldn&rsquo;t sit frozen because nobody set a reminder.</h1>
-        <p class="hero-sub">Contractors lose money because bond and retention deadlines get buried in spreadsheets, PDFs, and email threads. BondTracker surfaces every deadline before it&rsquo;s too late.</p>
+        <h1>Your retention money shouldn&rsquo;t sit frozen because nobody set a reminder.</h1>
+        <p class="hero-sub">Contractors lose money when retention release dates and bond deadlines get buried in spreadsheets, PDFs, and email threads. BondTracker surfaces every date before it&rsquo;s too late &mdash; including cash-collateralized bid bonds for the firms that use them.</p>
         <div class="hero-btns">
           <a href="#waitlist" class="btn-primary">Apply for free pilot spot</a>
           <a href="#how" class="btn-secondary">See how it works</a>
         </div>
       </div>
-      <div class="browser-frame hero-frame" aria-label="Screenshot of the BondTracker dashboard showing total bonds locked up and upcoming deadlines">
+      <div class="browser-frame hero-frame" aria-label="Screenshot of the BondTracker dashboard showing retention totals and upcoming deadlines">
         <div class="blueprint-corner tl" aria-hidden="true"></div>
         <div class="blueprint-corner tr" aria-hidden="true"></div>
         <div class="blueprint-corner bl" aria-hidden="true"></div>
@@ -1029,16 +1052,23 @@
     </div>
   </section>
 
+  <!-- WHO IT'S FOR -->
+  <div class="who-block">
+    <div class="who-block-inner">
+      <p><strong>Who this is for:</strong> Built for small and mid-sized commercial subcontractors managing a handful of active retention holds and bonds &mdash; not a replacement for Procore, Foundation, or other full construction ERPs, and not built for federal-bond-heavy general contractors.</p>
+    </div>
+  </div>
+
   <!-- PROBLEM -->
   <section class="problem reveal" id="problem">
     <div class="problem-inner">
       <div class="problem-copy">
-        <p>Right now, you might have a bond release sitting past its window and nobody&rsquo;s noticed. It happens to almost every back office running this on spreadsheets and email &mdash; not because anyone&rsquo;s careless, but because deadlines don&rsquo;t send themselves a reminder.</p>
+        <p>Right now, you might have a retention release sitting past its window and nobody&rsquo;s noticed. It happens to almost every back office running this on spreadsheets and email &mdash; not because anyone&rsquo;s careless, but because deadlines don&rsquo;t send themselves a reminder.</p>
         <p class="problem-sub">Sound familiar?</p>
         <ul class="problem-list">
-          <li>A bond return date buried in a PDF attachment from four months ago.</li>
+          <li>A retention release date buried in a PDF attachment from four months ago.</li>
           <li>A spreadsheet column that&rsquo;s supposed to get checked every Monday, and sometimes doesn&rsquo;t.</li>
-          <li>Cash that should already be back in the business, still sitting with the obligee.</li>
+          <li>Cash that should already be back in the business, still sitting with the client or obligee.</li>
         </ul>
       </div>
       <div class="problem-aside">
@@ -1057,7 +1087,7 @@
       <div class="calc-card">
         <div class="calc-inputs">
           <div class="calc-field">
-            <label for="calcBonds">Active bid bonds you manage</label>
+            <label for="calcBonds">Active bonds you manage</label>
             <input type="number" id="calcBonds" min="1" max="500" value="10" inputmode="numeric">
           </div>
           <div class="calc-field">
@@ -1090,7 +1120,7 @@
   <section class="how reveal" id="how">
     <div class="how-inner">
       <p class="section-label">How it works</p>
-      <h2>Three steps to never missing a bond deadline.</h2>
+      <h2>Three steps to never missing a retention or bond deadline.</h2>
       <div class="how-grid">
         <div class="steps">
           <div class="step">
@@ -1169,7 +1199,7 @@
         </details>
         <details class="faq-item">
           <summary>What does the pilot actually cost?</summary>
-          <p>Free during the pilot program. The full product will have a subscription, but pilot participants get free personal onboarding and ongoing access at no cost for the duration of the pilot.</p>
+          <p>Free during the pilot program. The full product will have a subscription, but pilot participants get free personal onboarding and ongoing access at no cost for the duration of the pilot. After the pilot, BondTracker will move to a paid plan &mdash; pilot participants get advance notice and no surprise charges.</p>
         </details>
         <details class="faq-item">
           <summary>How fast will I actually get notified?</summary>
@@ -1214,7 +1244,7 @@
           <input type="email" id="email" name="email" placeholder="jane@acme.com" required>
         </div>
         <div class="form-group">
-          <label for="bonds">Active bid bonds managed per year</label>
+          <label for="bonds">Active bonds and retention holds managed per year</label>
           <select id="bonds" name="bonds_per_year" required>
             <option value="" disabled selected>Select a range</option>
             <option value="1-5">1 – 5</option>
