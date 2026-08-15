@@ -344,10 +344,9 @@
     }
     .problem-stat-label {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--steel);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      line-height: 1.5;
     }
 
     /* ── CALCULATOR ── */
@@ -1066,14 +1065,14 @@
         <p>Right now, you might have a retention release sitting past its window and nobody&rsquo;s noticed. It happens to almost every back office running this on spreadsheets and email &mdash; not because anyone&rsquo;s careless, but because deadlines don&rsquo;t send themselves a reminder.</p>
         <p class="problem-sub">Sound familiar?</p>
         <ul class="problem-list">
-          <li>A retention release date buried in a PDF attachment from four months ago.</li>
+          <li>A $25k retention that&rsquo;s been sitting with the GC since the project closed months ago, and no one&rsquo;s chased it.</li>
+          <li>A bid-bond premium that got paid twice on the same contract because nobody logged who paid what.</li>
           <li>A spreadsheet column that&rsquo;s supposed to get checked every Monday, and sometimes doesn&rsquo;t.</li>
-          <li>Cash that should already be back in the business, still sitting with the client or obligee.</li>
         </ul>
       </div>
       <div class="problem-aside">
-        <p class="problem-stat">14 days</p>
-        <p class="problem-stat-label">Average days a missed deadline costs you</p>
+        <p class="problem-stat">30&ndash;90+ days late</p>
+        <p class="problem-stat-label">Industry research on UK subcontractor retention (Bolton et al., ASCE 2022) points to significant delays past the release date; your contract may vary.</p>
       </div>
     </div>
   </section>
@@ -1195,15 +1194,23 @@
         </details>
         <details class="faq-item">
           <summary>Is my contract data secure?</summary>
-          <p>Your data is stored in an access-controlled database &mdash; not publicly accessible, only visible to your account and the admin reviewing your upload. We don&rsquo;t share, sell, or use your data for anything outside of providing the service.</p>
+          <p>Your data is hosted on Supabase (AWS us-east-1) in an access-controlled database &mdash; not publicly accessible, only visible to your account and the admin reviewing your upload. We don&rsquo;t share, sell, or use your data for anything outside of providing the service.</p>
         </details>
         <details class="faq-item">
           <summary>What does the pilot actually cost?</summary>
           <p>Free during the pilot program. The full product will have a subscription, but pilot participants get free personal onboarding and ongoing access at no cost for the duration of the pilot. After the pilot, BondTracker will move to a paid plan &mdash; pilot participants get advance notice and no surprise charges.</p>
         </details>
         <details class="faq-item">
-          <summary>How fast will I actually get notified?</summary>
-          <p>During the pilot, a real person reaches out via your chosen channel as your deadline approaches &mdash; typically 30, 14, 7, and 1 days out. This is personal attention, not an instant automated blast.</p>
+          <summary>How is this different from Levelset, Procore, or my surety broker&rsquo;s release emails?</summary>
+          <p>BondTracker focuses specifically on bond and retention deadline tracking with human-verified data and multi-channel personal alerts. It&rsquo;s not a lien-notice compliance tool (Levelset&rsquo;s focus) or a full project management platform (Procore&rsquo;s focus) &mdash; it&rsquo;s a focused tool for one specific job: making sure you never miss a release date.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What happens to my data if I cancel?</summary>
+          <p>You can request export or deletion of your data at any time by contacting me directly. During the pilot stage, this is handled manually &mdash; just email me and I&rsquo;ll take care of it promptly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does this work with QuickBooks, Procore, or my existing accounting software?</summary>
+          <p>Not yet &mdash; CSV export is on the roadmap. If integrations would be useful to you, let me know when you apply. It helps me prioritize what to build next.</p>
         </details>
         <details class="faq-item">
           <summary>What if I don&rsquo;t want to keep using it after the pilot?</summary>
